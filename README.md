@@ -7,6 +7,8 @@ Supported platforms: **Twitter/X, Instagram, LinkedIn, Facebook, TikTok**.
 
 Part of the [Q-Empire Automation](https://qempireai.com) suite.
 
+---
+
 ## How it works
 
 ```
@@ -32,12 +34,28 @@ topics + brand voice
 | `social_autopilot/cli.py` | `python -m social_autopilot.cli` |
 | `social_autopilot/skills/` | JSON skill definitions for agent-swarm integration |
 
+---
+
+## Installation
+
+### Prerequisites
+- Python 3.10 or higher
+- pip (or uv/poetry)
+
+### Install dependencies
+```bash
+# Basic install (dry-run + template engine works without API keys)
+pip install -r requirements.txt
+
+# Install with development tools (tests, linting, formatting)
+pip install -r requirements-dev.txt
+```
+
+---
+
 ## Quick start
 
 ```bash
-# Install (only httpx + python-dotenv are needed; both optional for the demo)
-pip install -r requirements.txt
-
 # Run an end-to-end demo — no API keys required (everything is dry-run)
 python -m social_autopilot.cli demo
 
@@ -48,6 +66,8 @@ python -m social_autopilot.cli plan \
   --platforms twitter,linkedin,instagram \
   --publish
 ```
+
+---
 
 ## Programmatic use
 
@@ -70,6 +90,8 @@ bot.run_due(calendar)   # publish anything whose time has come
 bot.save(calendar)      # -> output/social/launch_week.json
 ```
 
+---
+
 ## Configuration
 
 Set via environment variables (see `.env.example`):
@@ -81,6 +103,8 @@ Set via environment variables (see `.env.example`):
 | `SOCIAL_LLM_MODEL` | `claude-sonnet-4-20250514` | Model used by the content engine. |
 | `SOCIAL_OUTPUT_DIR` | `output/social` | Where saved calendars are written. |
 
+---
+
 ## Going live
 
 Publishing is **dry-run by default** — nothing is posted to a real network.
@@ -88,13 +112,72 @@ To publish for real, implement `_publish_live()` on the relevant publisher in
 `social_autopilot/publisher.py` (add the platform's API client + credentials)
 and set `SOCIAL_DRY_RUN=0`.
 
-## Tests
+---
+
+## Testing
 
 ```bash
-python tests/test_social_autopilot.py
-# or, if pytest is installed:
+# Run all tests with pytest
 python -m pytest tests/ -v
+
+# Run tests directly (no pytest needed)
+python tests/test_social_autopilot.py
+
+# Run with coverage
+python -m pytest tests/ -v --cov=social_autopilot --cov-report=term-missing
+
+# Lint and format checks
+flake8 social_autopilot/ tests/
+black --check social_autopilot/ tests/
 ```
+
+---
+
+## Deployment & Automation
+
+This repository is fully automated with CI/CD via GitHub Actions:
+
+- **CI Pipeline** runs on every push and pull request: pytest, lint, and format checks.
+- **Branch protection**: `main` is the default branch. Use feature branches and open PRs.
+- **GitHub Actions**: see `.github/workflows/ci.yml` for details.
+
+To deploy or run the autopilot in a production environment:
+
+```bash
+# Set environment variables
+export ANTHROPIC_API_KEY="sk-ant-your-key"
+export SOCIAL_DRY_RUN="0"   # only if you want live publishing
+
+# Run the CLI
+python -m social_autopilot.cli plan \
+  --campaign "Launch" \
+  --topics "AI automation" \
+  --platforms twitter,linkedin
+```
+
+---
+
+## Tech Stack
+
+| Layer | Technology |
+|-------|------------|
+| Language | Python 3.10+ |
+| HTTP client | `httpx` (Claude API calls) |
+| Environment config | `python-dotenv` |
+| Testing | `pytest`, `pytest-cov` |
+| Linting | `flake8` |
+| Formatting | `black` |
+| CI/CD | GitHub Actions |
+
+---
+
+## Documentation
+
+- [Getting Started](docs/getting-started.md)
+- [Architecture Overview](docs/architecture.md)
+- [Agent Rules](AGENTS.md)
+
+---
 
 ## License
 

@@ -1,5 +1,6 @@
 # Core runtime dependencies for Q-Empire Social Autopilot.
 # Both are optional for the offline demo (dry-run + template content engine),
 # but required for live Claude generation and .env loading.
+
 httpx>=0.25.0
 python-dotenv>=1.0.0

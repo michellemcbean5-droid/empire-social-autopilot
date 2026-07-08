@@ -1,5 +1,6 @@
 # Environment
 .env
+.env.local
 credentials.json
 
 # Python
@@ -13,6 +14,11 @@ venv/
 
 # Output (generated calendars)
 output/
+
+# Testing / coverage
+.coverage
+coverage.xml
+htmlcov/
 
 # IDE
 .vscode/

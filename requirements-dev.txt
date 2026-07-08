@@ -1,0 +1,7 @@
+# Development / testing dependencies for Q-Empire Social Autopilot.
+# Install with: pip install -r requirements-dev.txt
+
+pytest>=7.4.0
+pytest-cov>=4.1.0
+flake8>=6.1.0
+black>=23.0.0
